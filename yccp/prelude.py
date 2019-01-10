@@ -14,6 +14,7 @@ __all__ = [
         "load",
     ]
 
+from builtins import str
 
 import numpy as np
 import yaml
@@ -109,7 +110,7 @@ class ExpressionEvaluatorWithPrelude(object):
     def eval(self, value):
         if isinstance(value, (RawExpression, RawPreludeEntry)):
             value = value.expression
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             return value
         eval_globals = {"np": np}
         eval_locals = {
@@ -146,7 +147,7 @@ for k, v in yccp_tags.items():
 yaml.add_representer(RawExpression,
                      lambda dumper, re: re.dump(dumper),
                      Dumper=YccpDumper)
-yaml.add_representer(unicode, lambda dumper, value:
+yaml.add_representer(str, lambda dumper, value:
                      dumper.represent_scalar(u'tag:yaml.org,2002:str', value),
                      Dumper=YccpDumper)
 
@@ -231,7 +232,7 @@ def load_data_with_prelude(obj, name_prelude=default_prelude_attr, **kwargs):
                 "of dictionaries".format(name_prelude_found))
 
         for dct in prelude:
-            for k, v in dct.iteritems():
+            for k, v in dct.items():
                 evaluate_expression.prelude_add(
                     k, evaluate_expression.eval(v))
 

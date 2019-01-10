@@ -13,7 +13,7 @@ with open(versionfile) as f:
 setup(
         name="yccp",
         version=".".join(map(str, __version__)),
-        install_requires=["PyYAML>=3.12"],
+        install_requires=["PyYAML>=3.12", "future"],
         packages=["yccp", "yccp.cli", "yccp.sweeps"],
         entry_points={
             "console_scripts" : [
